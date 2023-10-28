@@ -3,8 +3,12 @@ from django.shortcuts import render,HttpResponseRedirect,redirect
 from .forms import SignUpForm, LoginForm, PostForm,Post
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-from .models import Post
+from .models import Post,Contact_us
 from django.contrib.auth.models import Group
+from django.core.mail import send_mail
+from django.conf import settings
+# from URLconf.settings import EMAIL_HOST_USER
+from django.views.generic import ListView,DetailView
 # from .forms import YourModelForm
 # Create your views here.
 
@@ -12,6 +16,7 @@ from django.contrib.auth.models import Group
 
 def home(request):
     posts=Post.objects.all()
+    
     return render(request,'blog/home.html',{'posts':posts})
 
 #About
@@ -19,8 +24,32 @@ def about(request):
     return render(request,'blog/about.html')
 #Contact
 def contact(request):
+    if request.method=='POST':
+       name=request.POST.get('name')
+       email=request.POST.get('email')
+       subject=request.POST.get('subject')
+       message=request.POST.get('message')
+       contact=Contact_us(
+           name=name,
+           email=email,
+           subject=subject,
+           message=message,
+        )
+    # subject=subject  
+    # message=message
+    # email_from=settings.EMAIL_HOST_USER
+        
+    # try:
+    #       send_mail(subject,message,email_from,['dubeyaman7070@gmail.com'])
+    #       contact.save()
+    #       return redirect('home')
+    # except:
+    #         return redirect('contact')
+                   
     return render(request,'blog/contact.html')
 
+     
+     
 #def Dashbord
 def dashbord(request):
     if request.user.is_authenticated:
@@ -31,7 +60,17 @@ def dashbord(request):
         return render(request,'blog/dashbord.html',{'posts':posts,'full_name':full_name,'groups':gps})
     else:
         return HttpResponseRedirect('/login/')
-
+    
+def Profile(request):
+    if request.user.is_authenticated:
+        # posts=Post.objects.all()
+        # user=request.user
+        # full_name=user.get_full_name()
+        # gps=user.groups.all()
+        return render(request,'blog/profile.html')
+    else:
+        return HttpResponseRedirect('/login/')
+    
 #Logout
 def user_logout(request):
     logout(request)
@@ -111,5 +150,7 @@ def delete_post(request,id):
                 return HttpResponseRedirect('/dashbord/')
         else:
             return HttpResponseRedirect('/login/')
+        
+
     
     

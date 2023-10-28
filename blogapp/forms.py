@@ -28,3 +28,5 @@ class PostForm(forms.ModelForm):
         labels={'title':'Title','desc':'Description'}
         widgets={'title':forms.TextInput(attrs={'class':'form-control'}),
                  'desc':forms.Textarea(attrs={'class':'form-control'}),}
+        
+

@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 
-# BASE_DIR=path.dirname(os.path.dirname(os.path))
+# BASE_DIR=path.dirname(os.path.dirnamse(os.path))
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -30,6 +30,10 @@ SECRET_KEY = 'django-insecure-8he_ai=j2w^_-+%__4-gg$gl(oc8a02nw5cp8$k96_=g+_rkq(
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
 
 
 # Application definition
@@ -59,7 +63,9 @@ ROOT_URLCONF = 'miniblog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+           os.path.join(BASE_DIR, "templates")
+       ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,6 +77,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'miniblog.wsgi.application'
 
@@ -121,13 +128,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-MEDIA_URL='/media/'
+# MEDIA_URL='/media/'
 
-MEDIA_ROOT=os.path.join(BASE_DIR,'media')
+# MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
-STATICFILES_DIRS=(
-    os.path.join(BASE_DIR,'static'),
-)
+# STATICFILES_DIRS=[
+#     os.path.join(BASE_DIR,'static'),
+# ]
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = 'dubeyaman7070@gmail.com'
+EMAIL_HOST_PASSWORD = '8544558108'
+EMAIL_USE_TLS = True
 
 
 # Default primary key field type
